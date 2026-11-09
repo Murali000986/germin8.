@@ -1,0 +1,304 @@
+/* Germin8 In-Page Highlighter — Clean Minimal System */
+
+/* ── Field Highlight Classes ───────────────────────────────────────── */
+
+.germin8-highlight-filled {
+  outline: 2px solid #22c55e !important;
+  outline-offset: 1px !important;
+  background-color: rgba(34, 197, 94, 0.05) !important;
+  transition: outline 0.15s ease !important;
+}
+
+.germin8-highlight-review {
+  outline: 2px solid #f59e0b !important;
+  outline-offset: 1px !important;
+  background-color: rgba(245, 158, 11, 0.05) !important;
+  transition: outline 0.15s ease !important;
+}
+
+.germin8-highlight-error {
+  outline: 2px solid #ef4444 !important;
+  outline-offset: 1px !important;
+  background-color: rgba(239, 68, 68, 0.05) !important;
+  transition: outline 0.15s ease !important;
+}
+
+/* ── Fill Flash Animation (no glow, no box-shadow) ─────────────────── */
+
+@keyframes germin8-fill-flash {
+  0%   { outline-color: #22c55e; }
+  60%  { outline-color: #22c55e; }
+  100% { outline-color: transparent; }
+}
+
+.germin8-fill-flash {
+  animation: germin8-fill-flash 0.4s ease forwards !important;
+}
+
+/* ── Live HUD Badge ────────────────────────────────────────────────── */
+
+#germin8-live-hud {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  color: #fafafa;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* Collapsed pill */
+#germin8-live-hud.germin8-hud-collapsed .germin8-hud-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+#germin8-live-hud.germin8-hud-collapsed .germin8-hud-pill:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+#germin8-live-hud.germin8-hud-expanded .germin8-hud-pill {
+  display: none;
+}
+
+/* Status dot */
+.germin8-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a1a1aa;
+  flex-shrink: 0;
+}
+
+.germin8-status-dot.germin8-dot-active {
+  background: #22c55e;
+}
+
+.germin8-status-dot.germin8-dot-scanning {
+  background: #f59e0b;
+}
+
+.germin8-status-dot.germin8-dot-error {
+  background: #ef4444;
+}
+
+.germin8-pill-label {
+  color: #fafafa;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.germin8-pill-count {
+  color: #a1a1aa;
+  font-size: 11px;
+}
+
+/* Expanded panel */
+#germin8-live-hud.germin8-hud-collapsed .germin8-hud-panel {
+  display: none;
+}
+
+#germin8-live-hud.germin8-hud-expanded .germin8-hud-panel {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* Panel header */
+.germin8-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.germin8-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: #fafafa;
+}
+
+.germin8-panel-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0;
+  transition: color 0.1s ease, background 0.1s ease;
+}
+
+.germin8-panel-close:hover {
+  color: #fafafa;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Stats */
+.germin8-panel-stats {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.germin8-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.germin8-stat-label {
+  color: #a1a1aa;
+}
+
+.germin8-stat-value {
+  color: #fafafa;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Action buttons */
+.germin8-panel-actions {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.germin8-btn {
+  flex: 1;
+  height: 26px;
+  border-radius: 4px;
+  border: none;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+
+.germin8-btn:hover {
+  opacity: 0.85;
+}
+
+.germin8-btn-fill {
+  background: #6366f1;
+  color: #fff;
+}
+
+.germin8-btn-clear {
+  background: rgba(255, 255, 255, 0.07);
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.germin8-btn-clear:hover {
+  color: #fafafa;
+}
+
+/* Dashboard link */
+.germin8-panel-footer {
+  padding: 7px 12px;
+  text-align: center;
+}
+
+.germin8-dashboard-link {
+  color: #6366f1;
+  font-size: 11px;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  padding: 0;
+  transition: opacity 0.1s ease;
+}
+
+.germin8-dashboard-link:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+/* ── Lens Card ─────────────────────────────────────────────────────── */
+
+.germin8-lens-card {
+  position: absolute;
+  max-width: 200px;
+  z-index: 2147483646;
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 11px;
+  color: #fafafa;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.germin8-lens-card.germin8-lens-visible {
+  opacity: 1;
+}
+
+.germin8-lens-field-label {
+  color: #a1a1aa;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.germin8-lens-db-path {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 11px;
+  color: #6366f1;
+  word-break: break-all;
+  margin-bottom: 3px;
+}
+
+.germin8-lens-value {
+  color: #fafafa;
+  font-size: 11px;
+  word-break: break-word;
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

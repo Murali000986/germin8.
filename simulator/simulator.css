@@ -1,0 +1,312 @@
+/* MCA V3 Portal Official Theme & Simulator Styles */
+:root {
+  --mca-blue: #0b3954;
+  --mca-header: #082d44;
+  --mca-accent: #c44536;
+  --mca-gold: #ffbe0b;
+  --mca-bg: #f4f6f9;
+  --mca-border: #d0d7de;
+  --mca-text: #1f2937;
+  --mca-label: #374151;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--mca-bg);
+  color: var(--mca-text);
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+/* MCA Top Header */
+.mca-top-bar {
+  background-color: #051c2c;
+  color: #e2e8f0;
+  padding: 4px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+.mca-header {
+  background-color: var(--mca-header);
+  color: white;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid var(--mca-gold);
+}
+
+.mca-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mca-emblem {
+  font-size: 28px;
+}
+
+.mca-title h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.mca-title p {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.mca-nav-bar {
+  background-color: #0e4465;
+  color: white;
+  padding: 0 32px;
+  display: flex;
+  gap: 20px;
+}
+
+.mca-nav-item {
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.mca-nav-item.active {
+  border-bottom-color: var(--mca-gold);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Simulator Notice */
+.sim-notice-bar {
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  padding: 10px 32px;
+  font-size: 12px;
+  color: #1e40af;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sim-notice-badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* Container */
+.mca-container {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* Form Card */
+.form-card {
+  background: white;
+  border: 1px solid var(--mca-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.form-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--mca-border);
+  background: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mca-blue);
+}
+
+.form-body {
+  padding: 24px 20px;
+}
+
+/* Section Headings */
+.form-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mca-blue);
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 6px;
+  margin: 20px 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-section-title:first-child {
+  margin-top: 0;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mca-label);
+}
+
+.form-label .req {
+  color: var(--mca-accent);
+}
+
+.form-control {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #1e293b;
+  outline: none;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.form-control[readonly] {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+}
+
+/* Tables */
+.mca-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+
+.mca-table th {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  color: #334155;
+}
+
+.mca-table td {
+  border: 1px solid #cbd5e1;
+  padding: 6px 8px;
+}
+
+.mca-table input, .mca-table select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Buttons */
+.btn-mca {
+  background-color: var(--mca-blue);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-mca:hover {
+  background-color: #082d44;
+}
+
+.btn-mca-secondary {
+  background-color: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-mca-secondary:hover {
+  background-color: #cbd5e1;
+}
+
+/* Inspector Log Panel */
+.sim-inspector {
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 24px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.sim-inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.sim-log-box {
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 8px;
+}
+
+.log-time {
+  color: #64748b;
+}
+
+.log-type-react {
+  color: #38bdf8;
+  font-weight: bold;
+}
+
+.log-type-change {
+  color: #34d399;
+}

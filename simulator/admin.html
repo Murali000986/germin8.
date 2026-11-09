@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GERMIN8 — Platform Super Admin & Developer Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0A0D14;
+      --bg-card: #121824;
+      --bg-card-hover: #1A2332;
+      --border: #1E293B;
+      --border-accent: #334155;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --brand-yellow: #F4CF45;
+      --cyan: #38BDF8;
+      --emerald: #10B981;
+      --rose: #F43F5E;
+      --amber: #F59E0B;
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13.5px;
+      line-height: 1.5;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .admin-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Dark Developer Sidebar */
+    .admin-sidebar {
+      width: 250px;
+      min-width: 250px;
+      background: #080B10;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-logo-row {
+      height: 64px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-badge {
+      width: 30px;
+      height: 30px;
+      background: var(--brand-yellow);
+      color: #000;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 12px 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .nav-header {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      padding: 14px 14px 6px;
+    }
+
+    .admin-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .admin-nav-item:hover {
+      background: var(--bg-card);
+      color: var(--text);
+    }
+
+    .admin-nav-item.active {
+      background: rgba(244, 207, 69, 0.12);
+      color: var(--brand-yellow);
+      font-weight: 600;
+      border-left: 3px solid var(--brand-yellow);
+    }
+
+    /* Main Console */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .admin-topbar {
+      height: 64px;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0B0F17;
+    }
+
+    .admin-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; animation: fadeIn 0.2s ease forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* KPI Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .stat-val {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .stat-sub {
+      font-size: 11.5px;
+      color: var(--text-dim);
+    }
+
+    /* Tables */
+    .table-box {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #0E131E;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead th {
+      background: #151C2A;
+      padding: 11px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover td {
+      background: #172030;
+    }
+
+    .mono { font-family: var(--mono); font-size: 12px; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-card);
+      color: var(--text);
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover { background: var(--bg-card-hover); border-color: var(--cyan); }
+    .btn-yellow { background: var(--brand-yellow); border-color: var(--brand-yellow); color: #000; }
+    .btn-yellow:hover { background: #E5BE32; }
+    .btn-danger { background: rgba(244, 63, 94, 0.15); border-color: var(--rose); color: var(--rose); }
+    .btn-danger:hover { background: rgba(244, 63, 94, 0.3); }
+
+    /* Pills */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .pill-green { background: rgba(16, 185, 129, 0.15); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .pill-yellow { background: rgba(244, 207, 69, 0.15); color: var(--brand-yellow); border: 1px solid rgba(244, 207, 69, 0.3); }
+    .pill-red { background: rgba(244, 63, 94, 0.15); color: var(--rose); }
+    .pill-blue { background: rgba(56, 189, 248, 0.15); color: var(--cyan); }
+
+    .input {
+      background: #0B0F17;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+    .input:focus { border-color: var(--brand-yellow); }
+  </style>
+</head>
+<body>
+
+<div class="admin-container">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo-row">
+      <div class="logo-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div>
+        <div style="font-weight: 800; font-size: 14px; letter-spacing: -0.02em;">GERMIN8 DEV</div>
+        <div style="font-size: 10px; color: #64748B;">Platform Super Admin</div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-header">Platform Health</div>
+      <div class="admin-nav-item active" onclick="switchAdminTab('tab-overview')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="8" y1="17" x2="8" y2="11"/><line x1="12" y1="17" x2="12" y2="7"/><line x1="16" y1="17" x2="16" y2="13"/></svg>
+        <span>Platform Overview</span>
+      </div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-system')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>System Diagnostics</span>
+      </div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-audit')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Global Audit Logs</span>
+      </div>
+
+      <div class="nav-header">Ecosystem Fleet</div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-users')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>User Accounts</span>
+      </div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-plans')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <span>Subscription Plans</span>
+      </div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-extensions')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>Extension Fleet</span>
+      </div>
+      <div class="admin-nav-item" onclick="switchAdminTab('tab-mca-forms')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>MCA Form Config</span>
+      </div>
+
+      <div class="nav-header">Testbed</div>
+      <a href="/simulator/index.html" target="_blank" class="admin-nav-item" style="color: #090D15; font-weight: 600;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>MCA V3 Simulator</span>
+      </a>
+      <a href="/dashboard" class="admin-nav-item" style="color: #090D15; font-weight: 600;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <span>Customer Dashboard</span>
+      </a>
+    </div>
+
+    <div style="padding: 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-dim);">
+      <div>Engine: v2.5.0 Production</div>
+      <div>Node Native DatabaseSync</div>
+    </div>
+  </aside>
+
+  <!-- Main View -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-weight: 700; font-size: 14px;">Platform Super Admin Console</span>
+        <span class="pill pill-green">All Services Operational</span>
+      </div>
+      <div>
+        <button class="btn btn-yellow" onclick="loadAllAdminData()">↻ Refresh Metrics</button>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <!-- =====================================================================
+           TAB 1: PLATFORM OVERVIEW
+           ===================================================================== -->
+      <section id="tab-overview" class="view-section active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Monthly Recurring Revenue</span>
+            <span class="stat-val" id="stat-mrr" style="color: var(--brand-yellow);">₹4,998</span>
+            <span class="stat-sub">ARR: <strong id="stat-arr">₹59,976</strong></span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Active Users</span>
+            <span class="stat-val" id="stat-users">5</span>
+            <span class="stat-sub"><strong id="stat-companies">1</strong> Registered Company</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Active Subscriptions</span>
+            <span class="stat-val" id="stat-subs">2</span>
+            <span class="stat-sub">100% On-time Renewals</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Automation Jobs Executed</span>
+            <span class="stat-val" id="stat-jobs" style="color: var(--emerald);">4</span>
+            <span class="stat-sub"><strong id="stat-rate">100%</strong> Success Rate</span>
+          </div>
+        </div>
+
+        <!-- Recent Registered Accounts -->
+        <div class="card">
+          <div class="card-title">
+            <span>Recent Platform Users</span>
+            <button class="btn" onclick="switchAdminTab('tab-users')">View All Users →</button>
+          </div>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Workspace / Company</th>
+                  <th>Role</th>
+                  <th>Plan Tier</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="overview-users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: USER ACCOUNTS
+           ===================================================================== -->
+      <section id="tab-users" class="view-section">
+        <div class="card">
+          <div class="card-title">
+            <span>All Registered Platform Customers</span>
+            <input type="text" class="input" style="width: 240px;" placeholder="Search user by name or email..." oninput="filterAdminUsers(this.value)">
+          </div>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Workspace</th>
+                  <th>Subscription</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="all-users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: SUBSCRIPTION PLANS EDITOR
+           ===================================================================== -->
+      <section id="tab-plans" class="view-section">
+        <div class="card">
+          <div class="card-title">
+            <span>Subscription Tier Pricing & Quota Configuration</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">
+            Configure monthly and annual price points, seat allotments, and automation quotas in real time without code deployment.
+          </p>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Plan Code</th>
+                  <th>Plan Name</th>
+                  <th>Monthly Price (₹)</th>
+                  <th>Annual Price (₹/mo)</th>
+                  <th>Max Seats</th>
+                  <th>Monthly Quota</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="plans-table-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 4: EXTENSION FLEET
+           ===================================================================== -->
+      <section id="tab-extensions" class="view-section">
+        <div class="card">
+          <div class="card-title">
+            <span>Chrome Extension Hardware Fleet</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">
+            Inspect all currently paired employee browser instances across client CA firms. Force-revoke compromised tokens instantly.
+          </p>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Device Name</th>
+                  <th>Registered User</th>
+                  <th>Firm Workspace</th>
+                  <th>Extension Version</th>
+                  <th>Last Ping</th>
+                  <th>Status</th>
+                  <th>Security Action</th>
+                </tr>
+              </thead>
+              <tbody id="fleet-table-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 5: MCA FORMS CONFIG
+           ===================================================================== -->
+      <section id="tab-mca-forms" class="view-section">
+        <div class="card">
+          <div class="card-title">
+            <span>Supported MCA Form Profiles & Release Flags</span>
+          </div>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Form Name</th>
+                  <th>Description</th>
+                  <th>Typical Fields</th>
+                  <th>Release Stage</th>
+                </tr>
+              </thead>
+              <tbody id="forms-config-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 6: SYSTEM DIAGNOSTICS
+           ===================================================================== -->
+      <section id="tab-system" class="view-section">
+        <div class="card">
+          <div class="card-title">Live Node.js Runtime & Infrastructure Health</div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;" id="system-stats-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 7: GLOBAL AUDIT LOGS
+           ===================================================================== -->
+      <section id="tab-audit" class="view-section">
+        <div class="card">
+          <div class="card-title">Forensic Security & Audit Trail</div>
+          <div class="table-box">
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Actor / Email</th>
+                  <th>Action</th>
+                  <th>Resource</th>
+                  <th>IP Address</th>
+                  <th>Payload Details</th>
+                </tr>
+              </thead>
+              <tbody id="global-audit-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+let adminUsersCache = [];
+
+async function loadAllAdminData() {
+  try {
+    // Overview Stats
+    const res = await fetch("/api/admin/overview");
+    const data = await res.json();
+    if (data.success && data.stats) {
+      const s = data.stats;
+      document.getElementById("stat-mrr").textContent = `₹${Number(s.mrr).toLocaleString('en-IN')}`;
+      document.getElementById("stat-arr").textContent = `₹${Number(s.annualRunRate).toLocaleString('en-IN')}`;
+      document.getElementById("stat-users").textContent = s.totalUsers;
+      document.getElementById("stat-companies").textContent = s.totalCompanies;
+      document.getElementById("stat-subs").textContent = s.activeSubscriptions;
+      document.getElementById("stat-jobs").textContent = s.totalJobs;
+      document.getElementById("stat-rate").textContent = `${s.successRate}%`;
+
+      if (data.recentUsers) {
+        document.getElementById("overview-users-tbody").innerHTML = data.recentUsers.map(u => `
+          <tr>
+            <td style="font-weight: 700;">${u.full_name}</td>
+            <td>${u.email}</td>
+            <td>${u.workspace_name || 'Individual'}</td>
+            <td><span class="pill pill-yellow">${u.role}</span></td>
+            <td><span class="pill pill-blue">${u.plan_name || 'Individual'}</span></td>
+            <td><span class="pill ${u.status === 'active' ? 'pill-green' : 'pill-red'}">${u.status}</span></td>
+          </tr>
+        `).join("");
+      }
+    }
+
+    // All Users
+    const uRes = await fetch("/api/admin/users");
+    const uData = await uRes.json();
+    if (uData.success) {
+      adminUsersCache = uData.users;
+      renderAdminUsers(uData.users);
+    }
+
+    // Plans
+    const pRes = await fetch("/api/plans");
+    const pData = await pRes.json();
+    if (pData.success) {
+      document.getElementById("plans-table-tbody").innerHTML = pData.plans.map(p => `
+        <tr>
+          <td class="mono" style="font-weight: 700; color: var(--brand-yellow);">${p.code}</td>
+          <td style="font-weight: 700;">${p.name}</td>
+          <td>₹${p.monthly_price}</td>
+          <td>₹${p.annual_price}</td>
+          <td>${p.max_users} Seats</td>
+          <td>${p.max_automations} forms/mo</td>
+          <td>
+            <button class="btn btn-yellow" onclick="editPlanPrice('${p.id}', ${p.monthly_price}, ${p.annual_price})">Edit Price</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // Extensions Fleet
+    const extRes = await fetch("/api/admin/extensions");
+    const extData = await extRes.json();
+    if (extData.success) {
+      document.getElementById("fleet-table-tbody").innerHTML = extData.devices.map(d => `
+        <tr>
+          <td style="font-weight: 700;">${d.device_name}</td>
+          <td>${d.user_name} (${d.user_email})</td>
+          <td>${d.workspace_name}</td>
+          <td><span class="pill pill-yellow mono">v${d.extension_version}</span></td>
+          <td class="mono">${d.last_ping_at}</td>
+          <td><span class="pill ${d.status === 'paired' ? 'pill-green' : 'pill-red'}">${d.status}</span></td>
+          <td>
+            ${d.status === 'paired' ? `<button class="btn btn-danger" onclick="revokeExtensionDevice('${d.id}')">Force Revoke</button>` : 'Revoked'}
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // Forms Config
+    const fRes = await fetch("/api/profiles");
+    const fData = await fRes.json();
+    if (fData.success) {
+      document.getElementById("forms-config-tbody").innerHTML = fData.profiles.map(f => `
+        <tr>
+          <td class="mono" style="font-weight: 700; color: var(--cyan);">${f.code}</td>
+          <td style="font-weight: 700;">${f.name}</td>
+          <td style="color: var(--text-muted);">${f.description}</td>
+          <td>${f.typical_field_count} fields</td>
+          <td><span class="pill ${f.status === 'GA' ? 'pill-green' : 'pill-yellow'}">${f.status || 'GA'}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    // System Health
+    const sRes = await fetch("/api/admin/system");
+    const sData = await sRes.json();
+    if (sData.success) {
+      const sys = sData.system;
+      const memMb = Math.round(sys.memoryUsage.rss / 1024 / 1024);
+      document.getElementById("system-stats-grid").innerHTML = `
+        <div class="stat-card">
+          <span class="stat-label">Node Runtime</span>
+          <span class="stat-val" style="font-size: 1.3rem;">${sys.nodeVersion}</span>
+          <span class="stat-sub">Uptime: ${Math.floor(sys.uptimeSeconds / 60)} minutes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Process Memory</span>
+          <span class="stat-val" style="font-size: 1.3rem;">${memMb} MB</span>
+          <span class="stat-sub">Heap: ${Math.round(sys.memoryUsage.heapUsed / 1024 / 1024)} MB</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Database Engine</span>
+          <span class="stat-val" style="font-size: 1.3rem; color: var(--emerald);">SQLite Sync</span>
+          <span class="stat-sub">Zero-latency embedded</span>
+        </div>
+      `;
+    }
+
+    // Global Audit Logs
+    const aRes = await fetch("/api/admin/audit-logs?limit=50");
+    const aData = await aRes.json();
+    if (aData.success) {
+      document.getElementById("global-audit-tbody").innerHTML = aData.logs.map(l => `
+        <tr>
+          <td class="mono">${l.timestamp}</td>
+          <td style="font-weight: 600;">${l.user_email || 'system'}</td>
+          <td><span class="pill pill-yellow mono">${l.action}</span></td>
+          <td style="color: var(--text-muted);">${l.resource_type || '—'}</td>
+          <td class="mono">${l.ip_address || '127.0.0.1'}</td>
+          <td class="mono" style="font-size: 11px; max-width: 250px; overflow: hidden; text-overflow: ellipsis;">${JSON.stringify(l.details || {})}</td>
+        </tr>
+      `).join("");
+    }
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function renderAdminUsers(users) {
+  document.getElementById("all-users-tbody").innerHTML = users.map(u => `
+    <tr>
+      <td class="mono">${u.id}</td>
+      <td style="font-weight: 700;">${u.full_name}</td>
+      <td>${u.email}</td>
+      <td><span class="pill pill-yellow">${u.role}</span></td>
+      <td>${u.workspace_name || 'Individual'}</td>
+      <td><span class="pill pill-blue">${u.plan_name || 'Individual'}</span></td>
+      <td><span class="pill ${u.status === 'active' ? 'pill-green' : 'pill-red'}">${u.status}</span></td>
+      <td>
+        ${u.status === 'active' 
+          ? `<button class="btn btn-danger" onclick="toggleUserStatus('${u.id}', 'suspended')">Suspend</button>`
+          : `<button class="btn btn-yellow" onclick="toggleUserStatus('${u.id}', 'active')">Activate</button>`
+        }
+      </td>
+    </tr>
+  `).join("");
+}
+
+function filterAdminUsers(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = adminUsersCache.filter(u => u.full_name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+  renderAdminUsers(filtered);
+}
+
+async function toggleUserStatus(userId, newStatus) {
+  if (!confirm(`Are you sure you want to set user status to ${newStatus}?`)) return;
+  await fetch(`/api/admin/users/${userId}/status`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status: newStatus })
+  });
+  await loadAllAdminData();
+}
+
+async function editPlanPrice(planId, currentMonthly, currentAnnual) {
+  const newMonthly = prompt(`Enter new Monthly Price for ${planId} in INR:`, currentMonthly);
+  if (!newMonthly) return;
+  const newAnnual = prompt(`Enter new Annual Monthly Equivalent for ${planId} in INR:`, currentAnnual);
+  if (!newAnnual) return;
+
+  await fetch(`/api/admin/plans/${planId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      monthly_price: parseInt(newMonthly, 10),
+      annual_price: parseInt(newAnnual, 10),
+      max_users: planId === 'plan_company' ? 10 : 1,
+      max_automations: planId === 'plan_company' ? 2500 : 500,
+      is_active: 1,
+      is_visible: 1
+    })
+  });
+  alert("Plan configuration updated in production!");
+  await loadAllAdminData();
+}
+
+async function revokeExtensionDevice(deviceId) {
+  if (!confirm("Force revoke this hardware extension token?")) return;
+  await fetch(`/api/extension/devices/${deviceId}/revoke`, { method: "POST" });
+  await loadAllAdminData();
+}
+
+function switchAdminTab(tabId) {
+  document.querySelectorAll(".view-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".admin-nav-item").forEach(i => i.classList.remove("active"));
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add("active");
+  loadAllAdminData();
+}
+
+window.onload = () => {
+  loadAllAdminData();
+};
+</script>
+</body>
+</html>

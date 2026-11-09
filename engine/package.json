@@ -1,0 +1,26 @@
+{
+  "name": "germin8-form-automation-engine",
+  "version": "2.5.0",
+  "description": "Production-ready, reusable intelligent form automation platform for MCA e-filing portal (mca.gov.in) and dynamic SPAs.",
+  "type": "module",
+  "scripts": {
+    "start": "agy-node backend/src/server.js",
+    "test": "agy-node tests/test-end-to-end.js",
+    "test:unit": "agy-node tests/test-server.js"
+  },
+  "keywords": [
+    "mca",
+    "mca-v3",
+    "form-automation",
+    "chrome-extension",
+    "manifest-v3",
+    "autofill",
+    "compliance",
+    "corporate-affairs",
+    "aoc-4",
+    "dir-12",
+    "spice-plus"
+  ],
+  "author": "Germin8 Engineering",
+  "license": "UNLICENSED"
+}

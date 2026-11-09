@@ -1,0 +1,35 @@
+﻿{
+  "name": "germin8-platform",
+  "version": "1.0.0",
+  "description": "Germin8 â€” Complete MCA Automation SaaS Platform",
+  "private": true,
+  "workspaces": [
+    "web",
+    "engine"
+  ],
+  "scripts": {
+    "dev:web": "cd web && pnpm run dev",
+    "build:web": "cd web && pnpm run build",
+    "start:web": "cd web && pnpm run start",
+    "start:engine": "cd engine && node backend/src/server.js",
+    "test:saas": "node tests/test-saas-platform.js",
+    "test:engine": "node tests/test-end-to-end.js",
+    "test": "node tests/test-saas-platform.js && node tests/test-end-to-end.js"
+  },
+  "keywords": [
+    "mca",
+    "automation",
+    "saas",
+    "chrome-extension",
+    "spice-plus",
+    "aoc-4",
+    "dir-12",
+    "mgt-7",
+    "adt-1",
+    "nextjs",
+    "react19",
+    "tailwind"
+  ],
+  "author": "Germin8 Technologies",
+  "license": "UNLICENSED"
+}

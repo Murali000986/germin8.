@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCA V3 e-Filing Portal - Form Automation Testbed</title>
+  <link rel="stylesheet" href="simulator.css">
+  <link rel="stylesheet" href="/extension/content/highlighter.css">
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="mca-top-bar">
+    <div>Government of India | Ministry of Corporate Affairs</div>
+    <div>Language: English | Accessibility | MCA V3 Online Services</div>
+  </div>
+
+  <!-- Header -->
+  <header class="mca-header">
+    <div class="mca-brand-wrap">
+      <div class="mca-emblem">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 2L2 7h20L12 2z"/></svg>
+      </div>
+      <div class="mca-title">
+        <h1>Ministry of Corporate Affairs</h1>
+        <p>Empowering Business, Protecting Investors</p>
+      </div>
+    </div>
+    <div style="text-align: right; font-size: 11px;">
+      <div>Logged in as: <strong>CS_PRACTITIONER_FCS</strong></div>
+      <div style="color: #94a3b8;">Session Valid | DSC Token Ready</div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="mca-nav-bar">
+    <div class="mca-nav-item active" data-form="form-spice">SPICe+ (Part B)</div>
+    <div class="mca-nav-item" data-form="form-dir12">Form DIR-12 (Directors)</div>
+    <div class="mca-nav-item" data-form="form-aoc4">Form AOC-4 (Financial Statements)</div>
+  </nav>
+
+  <!-- Testbed Notice Bar -->
+  <div class="sim-notice-bar">
+    <div>
+      <span class="sim-notice-badge">Germin8 MCA Live Testbed</span>
+      This authentic MCA V3 simulation allows direct testing of the <strong>Germin8 Chrome Extension</strong>. Open the extension popup or side panel to scan, map, and auto-fill!
+    </div>
+    <div>
+      <span id="live-fields-state-badge" style="font-weight: 700; color: #1e3a8a;">0 of 0 fields filled</span>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="mca-container">
+
+    <!-- ==================== FORM 1: SPICe+ PART B ==================== -->
+    <div class="form-card form-section active-form" id="form-spice">
+      <div class="form-header">
+        <div>
+          <div class="form-title">SPICe+ (Part B) – Integrated Company Incorporation Form</div>
+          <div style="font-size: 11px; color: #64748b;">Pursuant to Rule 38 of the Companies (Incorporation) Rules, 2014</div>
+        </div>
+        <span class="sim-notice-badge">e-Form SPICe+</span>
+      </div>
+
+      <div class="form-body">
+        <!-- Section 1: Company Profile -->
+        <div class="form-section-title">
+          <span>1. Company Structure & Identification Particulars</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="txtCin">Corporate Identity Number (CIN) / Proposed Name <span class="req">*</span></label>
+            <input type="text" id="txtCin" name="corporateIdentityNumber" class="form-control" placeholder="e.g. U72200MH2018PTC309871" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtCompName">Name of the Proposed / Existing Company <span class="req">*</span></label>
+            <input type="text" id="txtCompName" name="company_name" class="form-control" placeholder="Full legal name of company" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="selectClass">Class of Company <span class="req">*</span></label>
+            <select id="selectClass" name="classOfCompany" class="form-control">
+              <option value="">-- Select Class --</option>
+              <option value="Private">Private</option>
+              <option value="Public">Public</option>
+              <option value="OPC">One Person Company</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="selectCategory">Company Category <span class="req">*</span></label>
+            <select id="selectCategory" name="companyCategory" class="form-control">
+              <option value="">-- Select Category --</option>
+              <option value="Company limited by shares">Company limited by shares</option>
+              <option value="Company limited by guarantee">Company limited by guarantee</option>
+              <option value="Unlimited company">Unlimited company</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtDoi">Date of Incorporation (DD/MM/YYYY)</label>
+            <input type="text" id="txtDoi" name="dateOfIncorporation" class="form-control" placeholder="DD/MM/YYYY">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtRoc">Registrar of Companies (ROC Code)</label>
+            <input type="text" id="txtRoc" name="roc_code" class="form-control" placeholder="e.g. ROC-MUMBAI">
+          </div>
+        </div>
+
+        <!-- Section 2: Capital Structure -->
+        <div class="form-section-title">
+          <span>2. Capital Structure of the Company</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="txtAuthCap">Total Authorized Capital (INR) <span class="req">*</span></label>
+            <input type="number" id="txtAuthCap" name="authorized_capital" class="form-control" placeholder="e.g. 10000000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtPaidCap">Total Subscribed / Paid-up Capital (INR) <span class="req">*</span></label>
+            <input type="number" id="txtPaidCap" name="paid_up_capital" class="form-control" placeholder="e.g. 5000000" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtPan">Company PAN (Permanent Account Number)</label>
+            <input type="text" id="txtPan" name="company_pan" class="form-control" placeholder="e.g. AABCT1234P" maxlength="10">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtTan">Company TAN (Tax Deduction Number)</label>
+            <input type="text" id="txtTan" name="company_tan" class="form-control" placeholder="e.g. MUMB12345E" maxlength="10">
+          </div>
+        </div>
+
+        <!-- Section 3: Registered Office Address -->
+        <div class="form-section-title">
+          <span>3. Particulars of Registered Office Address</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label" for="txtAddress1">Address Line 1 (Building / Premise) <span class="req">*</span></label>
+            <input type="text" id="txtAddress1" name="address_line_1" class="form-control" placeholder="Premises name, flat / door number" required>
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label" for="txtAddress2">Address Line 2 (Road / Street / Landmark)</label>
+            <input type="text" id="txtAddress2" name="address_line_2" class="form-control" placeholder="Street, road, locality">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtCity">City / Town <span class="req">*</span></label>
+            <input type="text" id="txtCity" name="city" class="form-control" placeholder="City" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtDistrict">District <span class="req">*</span></label>
+            <input type="text" id="txtDistrict" name="district" class="form-control" placeholder="District" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="selectState">State / Union Territory <span class="req">*</span></label>
+            <select id="selectState" name="state" class="form-control">
+              <option value="">-- Select State --</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtPincode">Postal Pin Code <span class="req">*</span></label>
+            <input type="text" id="txtPincode" name="pin_code" class="form-control" placeholder="e.g. 400013" maxlength="6" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtEmail">Registered Official Email ID <span class="req">*</span></label>
+            <input type="email" id="txtEmail" name="company_email" class="form-control" placeholder="compliance@company.in" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="txtPhone">Contact Telephone / Mobile</label>
+            <input type="text" id="txtPhone" name="company_phone" class="form-control" placeholder="+91-22-68901234">
+          </div>
+        </div>
+
+        <!-- Section 4: Directors & Subscribers Table -->
+        <div class="form-section-title">
+          <span>4. Particulars of First Directors & Subscribers</span>
+        </div>
+        <p style="font-size: 11px; color: #64748b; margin-bottom: 8px;">
+          Details of individual subscribers/directors. The table below represents repeatable sections in MCA V3 e-forms.
+        </p>
+        <table class="mca-table" id="spice_directors_table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">S.No</th>
+              <th>DIN / DPIN</th>
+              <th>Director Full Name</th>
+              <th>Father's Name</th>
+              <th>Designation</th>
+              <th>Mobile</th>
+              <th>Email Address</th>
+            </tr>
+          </thead>
+          <tbody id="spice_directors_tbody">
+            <tr id="spice_dir_row_0">
+              <td style="text-align: center;">1</td>
+              <td><input type="text" id="din_0" name="director_din_0" placeholder="8-digit DIN" maxlength="8"></td>
+              <td><input type="text" id="name_0" name="director_name_0" placeholder="Full name"></td>
+              <td><input type="text" id="father_0" name="director_father_0" placeholder="Father's name"></td>
+              <td>
+                <select id="desig_0" name="director_designation_0">
+                  <option value="Managing Director">Managing Director</option>
+                  <option value="Whole-time Director">Whole-time Director</option>
+                  <option value="Director">Director</option>
+                </select>
+              </td>
+              <td><input type="text" id="mobile_0" name="director_mobile_0" placeholder="10-digit mobile"></td>
+              <td><input type="email" id="email_0" name="director_email_0" placeholder="director@company.in"></td>
+            </tr>
+            <tr id="spice_dir_row_1">
+              <td style="text-align: center;">2</td>
+              <td><input type="text" id="din_1" name="director_din_1" placeholder="8-digit DIN" maxlength="8"></td>
+              <td><input type="text" id="name_1" name="director_name_1" placeholder="Full name"></td>
+              <td><input type="text" id="father_1" name="director_father_1" placeholder="Father's name"></td>
+              <td>
+                <select id="desig_1" name="director_designation_1">
+                  <option value="Whole-time Director">Whole-time Director</option>
+                  <option value="Managing Director">Managing Director</option>
+                  <option value="Director">Director</option>
+                </select>
+              </td>
+              <td><input type="text" id="mobile_1" name="director_mobile_1" placeholder="10-digit mobile"></td>
+              <td><input type="email" id="email_1" name="director_email_1" placeholder="director@company.in"></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn-mca-secondary" type="button" id="btn-add-director-row">
+          + Add Another Director Row
+        </button>
+
+        <!-- Form Action Buttons -->
+        <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
+          <button class="btn-mca-secondary" type="button" id="btn-clear-spice">Clear Form</button>
+          <button class="btn-mca" type="button" id="btn-save-draft">Save Form Draft</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FORM 2: FORM DIR-12 ==================== -->
+    <div class="form-card form-section" id="form-dir12" style="display: none;">
+      <div class="form-header">
+        <div>
+          <div class="form-title">Form DIR-12 – Particulars of Appointment of Directors</div>
+          <div style="font-size: 11px; color: #64748b;">Pursuant to section 7(1)(c), 168 & 170(2) of the Companies Act, 2013</div>
+        </div>
+        <span class="sim-notice-badge">e-Form DIR-12</span>
+      </div>
+
+      <div class="form-body">
+        <div class="form-section-title">1. Corporate Identification</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="dir12_cin">Corporate Identity Number (CIN) <span class="req">*</span></label>
+            <input type="text" id="dir12_cin" name="cin" class="form-control" placeholder="CIN" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_comp_name">Name of Company <span class="req">*</span></label>
+            <input type="text" id="dir12_comp_name" name="legalName" class="form-control" placeholder="Company Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_email">Company Email ID <span class="req">*</span></label>
+            <input type="email" id="dir12_email" name="emailId" class="form-control" placeholder="Registered Email" required>
+          </div>
+        </div>
+
+        <div class="form-section-title">2. Particulars of Director being Appointed / Updated</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="dir12_din">Director Identification Number (DIN / DPIN) <span class="req">*</span></label>
+            <input type="text" id="dir12_din" name="directorDin" class="form-control" placeholder="8-digit DIN" maxlength="8" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_dir_name">Director Full Name <span class="req">*</span></label>
+            <input type="text" id="dir12_dir_name" name="directorFullName" class="form-control" placeholder="Full name of director" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_father">Father's Name <span class="req">*</span></label>
+            <input type="text" id="dir12_father" name="directorFatherName" class="form-control" placeholder="Father's full name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_dob">Date of Birth (DD/MM/YYYY) <span class="req">*</span></label>
+            <input type="text" id="dir12_dob" name="directorDob" class="form-control" placeholder="DD/MM/YYYY" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_gender">Gender <span class="req">*</span></label>
+            <select id="dir12_gender" name="directorGender" class="form-control">
+              <option value="">-- Select Gender --</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_desig">Designation <span class="req">*</span></label>
+            <select id="dir12_desig" name="directorDesignation" class="form-control">
+              <option value="Managing Director">Managing Director</option>
+              <option value="Whole-time Director">Whole-time Director</option>
+              <option value="Independent Director">Independent Director</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_doa">Date of Appointment (DD/MM/YYYY) <span class="req">*</span></label>
+            <input type="text" id="dir12_doa" name="dateOfAppointment" class="form-control" placeholder="DD/MM/YYYY" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_pan">Director PAN <span class="req">*</span></label>
+            <input type="text" id="dir12_pan" name="directorPan" class="form-control" placeholder="Director PAN" maxlength="10" required>
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label" for="dir12_address">Residential Address <span class="req">*</span></label>
+            <input type="text" id="dir12_address" name="residentialAddress" class="form-control" placeholder="Complete address of director" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_mobile">Mobile Number <span class="req">*</span></label>
+            <input type="text" id="dir12_mobile" name="directorMobile" class="form-control" placeholder="10-digit mobile" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dir12_dir_email">Email Address <span class="req">*</span></label>
+            <input type="email" id="dir12_dir_email" name="directorEmail" class="form-control" placeholder="director@company.in" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== FORM 3: FORM AOC-4 ==================== -->
+    <div class="form-card form-section" id="form-aoc4" style="display: none;">
+      <div class="form-header">
+        <div>
+          <div class="form-title">Form AOC-4 – Filing of Financial Statements and Disclosures</div>
+          <div style="font-size: 11px; color: #64748b;">Pursuant to Section 137 of the Companies Act, 2013 and Rule 12(1)</div>
+        </div>
+        <span class="sim-notice-badge">e-Form AOC-4</span>
+      </div>
+
+      <div class="form-body">
+        <div class="form-section-title">1. Company Particulars</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="aoc4_cin">Corporate Identity Number (CIN) <span class="req">*</span></label>
+            <input type="text" id="aoc4_cin" name="corporateIdentificationNumber" class="form-control" placeholder="CIN" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_comp_name">Name of the Company <span class="req">*</span></label>
+            <input type="text" id="aoc4_comp_name" name="nameOfCompany" class="form-control" placeholder="Company Name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_agm">Date of AGM (Annual General Meeting) <span class="req">*</span></label>
+            <input type="text" id="aoc4_agm" name="dateOfAgm" class="form-control" placeholder="YYYY-MM-DD" required>
+          </div>
+        </div>
+
+        <div class="form-section-title">2. Financial Parameters & Balance Sheet Extracts</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="aoc4_turnover">Turnover / Revenue from Operations (INR) <span class="req">*</span></label>
+            <input type="number" id="aoc4_turnover" name="revenueFromOperations" class="form-control" placeholder="Turnover" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_pat">Net Profit / Loss After Tax (INR) <span class="req">*</span></label>
+            <input type="number" id="aoc4_pat" name="profitAfterTax" class="form-control" placeholder="Net Profit" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_networth">Net Worth of Company (INR) <span class="req">*</span></label>
+            <input type="number" id="aoc4_networth" name="shareholdersFunds" class="form-control" placeholder="Net Worth" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_auth_cap">Authorized Capital (INR) <span class="req">*</span></label>
+            <input type="number" id="aoc4_auth_cap" name="authorizedCapital" class="form-control" placeholder="Authorized Capital" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_paid_cap">Paid-up Capital (INR) <span class="req">*</span></label>
+            <input type="number" id="aoc4_paid_cap" name="paidUpCapital" class="form-control" placeholder="Paid-up Capital" required>
+          </div>
+        </div>
+
+        <div class="form-section-title">3. Statutory Auditor Disclosures</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="aoc4_aud_name">Statutory Auditor / Firm Name <span class="req">*</span></label>
+            <input type="text" id="aoc4_aud_name" name="auditorFirmName" class="form-control" placeholder="Audit firm name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_frn">Firm Registration Number (FRN) <span class="req">*</span></label>
+            <input type="text" id="aoc4_frn" name="firmRegistrationNumber" class="form-control" placeholder="FRN" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="aoc4_mbr">Partner Membership Number <span class="req">*</span></label>
+            <input type="text" id="aoc4_mbr" name="membershipNumber" class="form-control" placeholder="Membership No" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Reactive State Inspector -->
+    <div class="sim-inspector">
+      <div class="sim-inspector-header">
+        <span>⚡ Live Framework State & Event Inspector</span>
+        <button class="btn-mca-secondary" id="btn-clear-logs" style="padding: 2px 8px; font-size: 10px;">Clear Console</button>
+      </div>
+      <div class="sim-log-box" id="sim-log-entries">
+        <div class="log-entry">
+          <span class="log-time">[Init]</span>
+          <span class="log-type-react">MCA V3 Portal Testbed ready.</span>
+          <span>Waiting for Germin8 extension scan or auto-fill events...</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="simulator.js"></script>
+  <script src="/extension/content/scanner.js"></script>
+  <script src="/extension/content/filler.js"></script>
+  <script src="/extension/content/highlighter.js"></script>
+</body>
+</html>

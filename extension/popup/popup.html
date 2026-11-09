@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Germin8 — Form Automation Engine</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HEADER  44 px
+  ═══════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-logo">G8</div>
+      <span class="brand-title">Germin8</span>
+      <span class="brand-version">v2.5</span>
+    </div>
+    <div class="header-status">
+      <div class="status-dot" id="backend-status-dot" title="Backend status"></div>
+      <button class="btn btn-secondary btn-icon" id="btn-open-sidepanel" title="Open side panel">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="1" y="2" width="14" height="12" rx="2"/>
+          <line x1="10" y1="2" x2="10" y2="14"/>
+        </svg>
+        <span style="font-size:11px;">Side Panel</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       BODY ROW  (sidebar + content)
+  ═══════════════════════════════════════ -->
+  <div class="app-body">
+
+    <!-- ── SIDEBAR NAVIGATION ── -->
+    <nav class="sidebar">
+
+      <!-- Client -->
+      <button class="tab-btn active" data-tab="tab-client" data-label="Client" title="Client">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="10" cy="7" r="3.5"/>
+          <path d="M3 17c0-3.314 3.134-6 7-6s7 2.686 7 6"/>
+        </svg>
+      </button>
+
+      <!-- Scan -->
+      <button class="tab-btn" data-tab="tab-scan" data-label="Scan" title="Scan">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="9" cy="9" r="5"/>
+          <line x1="13.5" y1="13.5" x2="17" y2="17"/>
+        </svg>
+      </button>
+
+      <!-- Mapping -->
+      <button class="tab-btn" data-tab="tab-mapping" data-label="Mapping" title="Mapping">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="4"  cy="6"  r="2"/>
+          <circle cx="16" cy="10" r="2"/>
+          <circle cx="4"  cy="14" r="2"/>
+          <line x1="6" y1="6"  x2="14" y2="10"/>
+          <line x1="6" y1="14" x2="14" y2="10"/>
+        </svg>
+      </button>
+
+      <!-- Fill -->
+      <button class="tab-btn" data-tab="tab-fill" data-label="Fill" title="Fill &amp; Validate">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M10 2 L13 9 H17 L7.5 18 L10.5 11 H6 Z" stroke-linejoin="round" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Logs -->
+      <button class="tab-btn" data-tab="tab-logs" data-label="Logs" title="Logs">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <line x1="4" y1="6"  x2="16" y2="6"/>
+          <line x1="4" y1="10" x2="16" y2="10"/>
+          <line x1="4" y1="14" x2="11" y2="14"/>
+        </svg>
+      </button>
+
+      <!-- Settings -->
+      <button class="tab-btn" data-tab="tab-admin" data-label="Settings" title="Settings">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="10" cy="10" r="2.5"/>
+          <path d="M10 2v2M10 16v2M2 10h2M16 10h2
+                   M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42
+                   M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+
+    </nav><!-- /sidebar -->
+
+    <!-- ── CONTENT PANEL ── -->
+    <main class="content-panel">
+
+      <!-- ══════════════════════════════════
+           TAB 1 — CLIENT SELECTION
+      ══════════════════════════════════ -->
+      <section class="tab-pane active" id="tab-client">
+
+        <!-- Search & list -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Select Client</span>
+            <span class="pill pill-neutral" id="client-count-pill">0 Clients</span>
+          </div>
+
+          <div class="input-row">
+            <input
+              type="text"
+              class="text-input mono"
+              id="client-search-input"
+              placeholder="Search company name, CIN, or ID…"
+            >
+            <button class="btn btn-secondary btn-icon" id="btn-refresh-clients" title="Refresh clients">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M13.65 3.5A7 7 0 1 0 14 8" stroke-linecap="round"/>
+                <polyline points="14 2 14 6 10 6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <select class="select-input" id="client-select-dropdown">
+            <option value="">— Choose a registered client —</option>
+          </select>
+        </div>
+
+        <!-- Active client card -->
+        <div class="client-profile-box" id="active-client-card" style="display:none;">
+          <div class="client-name-row" id="preview-client-name">Loading…</div>
+
+          <div class="client-detail-row">
+            <span class="client-detail-label">CIN</span>
+            <span class="client-detail-value mono" id="preview-client-cin">—</span>
+          </div>
+          <div class="client-detail-row">
+            <span class="client-detail-label">Type</span>
+            <span class="client-detail-value" id="preview-client-class">—</span>
+          </div>
+          <div class="client-detail-row">
+            <span class="client-detail-label">Status</span>
+            <span class="client-detail-value" id="preview-client-status">—</span>
+          </div>
+          <div class="client-detail-row">
+            <span class="client-detail-label">Address</span>
+            <span class="client-detail-value" id="preview-client-address">—</span>
+          </div>
+          <div class="client-detail-row">
+            <span class="client-detail-label">Authorized Capital</span>
+            <span class="client-detail-value mono" id="preview-client-authcap">—</span>
+          </div>
+          <div class="client-detail-row">
+            <span class="client-detail-label">Directors</span>
+            <span class="client-detail-value" id="preview-client-directors">0</span>
+          </div>
+        </div>
+
+        <!-- Webpage context -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Webpage Context</span>
+            <span class="pill pill-info" id="detected-form-badge">Detecting…</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted);">
+            URL: <span id="page-url-label" style="color:var(--text-secondary); word-break:break-all; font-family:ui-monospace,'SF Mono',monospace; font-size:10px;">—</span>
+          </div>
+          <button class="btn btn-primary btn-block" id="btn-proceed-to-scan">
+            Scan Current Webpage
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+              <line x1="3" y1="8" x2="13" y2="8"/><polyline points="9 4 13 8 9 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </section><!-- /tab-client -->
+
+      <!-- ══════════════════════════════════
+           TAB 2 — SCAN
+      ══════════════════════════════════ -->
+      <section class="tab-pane" id="tab-scan">
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">DOM Scanner</span>
+            <span class="pill pill-neutral" id="scanned-count-badge">0 Fields</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" style="flex:2;" id="btn-scan-page">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" style="width:14px;height:14px;">
+                <circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/>
+              </svg>
+              Scan Active Webpage
+            </button>
+            <button class="btn btn-secondary" style="flex:1;" id="btn-toggle-observer">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" style="width:14px;height:14px;">
+                <ellipse cx="8" cy="8" rx="7" ry="4"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+              Watch SPA
+            </button>
+          </div>
+        </div>
+
+        <div class="card" style="gap:8px;">
+          <div class="card-header">
+            <span class="card-title">Detected Fields</span>
+            <input
+              type="text"
+              class="text-input"
+              id="filter-detected-input"
+              placeholder="Filter…"
+              style="width:130px; padding:4px 8px; font-size:11px;"
+            >
+          </div>
+          <div class="data-table-container" style="max-height:220px;">
+            <table class="data-table" id="detected-fields-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Label</th>
+                  <th>Name / ID</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="detected-fields-tbody">
+                <tr><td colspan="4" class="empty-state">No scan performed yet. Click "Scan Active Webpage" above.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-primary btn-block" id="btn-proceed-to-mapping">
+            Analyze Mappings
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+              <line x1="3" y1="8" x2="13" y2="8"/><polyline points="9 4 13 8 9 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </section><!-- /tab-scan -->
+
+      <!-- ══════════════════════════════════
+           TAB 3 — MAPPING
+      ══════════════════════════════════ -->
+      <section class="tab-pane" id="tab-mapping">
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Field Mapping</span>
+            <span class="pill pill-info" id="mapped-summary-badge">0 / 0 Mapped</span>
+          </div>
+          <div class="summary-bar">
+            Coverage: <strong id="mapping-coverage-text" style="color:var(--text-primary);">—</strong>
+          </div>
+        </div>
+
+        <div class="data-table-container" style="max-height:280px;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Webpage Field</th>
+                <th>DB Path</th>
+                <th>Confidence</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody id="mapping-preview-tbody">
+              <tr><td colspan="4" class="empty-state">Perform scan first to preview field mappings.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-secondary" style="flex:1;" id="btn-re-match">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" style="width:13px;height:13px;">
+              <path d="M13.65 3.5A7 7 0 1 0 14 8" stroke-linecap="round"/>
+              <polyline points="14 2 14 6 10 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Re-analyze
+          </button>
+          <button class="btn btn-primary" style="flex:2;" id="btn-proceed-to-fill">
+            Proceed to Fill
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+              <line x1="3" y1="8" x2="13" y2="8"/><polyline points="9 4 13 8 9 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </section><!-- /tab-mapping -->
+
+      <!-- ══════════════════════════════════
+           TAB 4 — FILL & VALIDATE
+      ══════════════════════════════════ -->
+      <section class="tab-pane" id="tab-fill">
+
+        <!-- Safety notice — left-border alert, NO emoji -->
+        <div class="safety-notice">
+          <span class="safety-notice-icon" aria-hidden="true"></span>
+          <div>
+            <strong>Statutory Filing Safety Protocol:</strong>
+            Forms are populated for your inspection. Germin8 will <strong>never</strong> submit
+            a government form without explicit user confirmation.
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="card-title">Execution Settings</span>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="check-overwrite-existing">
+            Overwrite existing user-entered values
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="check-highlight-dom" checked>
+            Highlight filled fields visually on webpage
+          </label>
+
+          <div class="btn-group" style="margin-top:4px;">
+            <button class="btn btn-primary" style="flex:2;" id="btn-trigger-fill">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" style="width:14px;height:14px;">
+                <path d="M10 2 L13 9 H17 L7.5 18 L10.5 11 H6 Z" stroke-linejoin="round" stroke-linecap="round"/>
+              </svg>
+              Fill Form
+            </button>
+            <button class="btn btn-danger" style="flex:1;" id="btn-clear-fields">
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Validation engine -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Post-Fill Validation</span>
+            <span class="pill pill-neutral" id="validation-status-pill">Pending</span>
+          </div>
+          <p style="font-size:11px; color:var(--text-muted); line-height:1.5;">
+            Compares active webpage values against database ground truth and validates
+            CIN, DIN, PAN, and date formats.
+          </p>
+          <button class="btn btn-secondary btn-block" id="btn-trigger-validate">
+            Run Post-Fill Validation
+          </button>
+          <div class="data-table-container" style="max-height:160px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Field</th>
+                  <th>Filled Value</th>
+                  <th>Expected</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="validation-results-tbody">
+                <tr><td colspan="4" class="empty-state">Click "Run Post-Fill Validation" after filling.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section><!-- /tab-fill -->
+
+      <!-- ══════════════════════════════════
+           TAB 5 — LOGS
+      ══════════════════════════════════ -->
+      <section class="tab-pane" id="tab-logs">
+
+        <div class="card" style="flex:1;">
+          <div class="card-header">
+            <span class="card-title">Audit Trail</span>
+            <button class="btn btn-secondary" style="padding:3px 8px; font-size:10px;" id="btn-refresh-logs">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" style="width:11px;height:11px;">
+                <path d="M13.65 3.5A7 7 0 1 0 14 8" stroke-linecap="round"/>
+                <polyline points="14 2 14 6 10 6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Refresh
+            </button>
+          </div>
+          <div class="data-table-container logs-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Client</th>
+                  <th>Form</th>
+                  <th>Fields</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="audit-logs-tbody">
+                <tr><td colspan="5" class="empty-state">No activity logs recorded yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section><!-- /tab-logs -->
+
+      <!-- ══════════════════════════════════
+           TAB 6 — SETTINGS / ADMIN
+      ══════════════════════════════════ -->
+      <section class="tab-pane" id="tab-admin">
+
+        <!-- SaaS Pairing Card -->
+        <div class="card" style="border: 1px solid #F4CF45; background: #FFFDF0;">
+          <span class="card-title" style="color: #8C6D07;">Germin8 SaaS Cloud Pairing</span>
+          <p style="font-size:11px; color: #737373; margin-bottom: 8px;">
+            Pair this extension to your Germin8 SaaS Workspace using the 6-character code from your dashboard.
+          </p>
+          <div class="input-row">
+            <input type="text" class="text-input mono" id="input-pairing-code" placeholder="e.g. A8F9K2" style="text-transform: uppercase;">
+            <button class="btn btn-primary" id="btn-pair-device">Pair Device</button>
+          </div>
+          <div id="pairing-status-msg" style="font-size: 11px; margin-top: 6px; font-weight: 600;"></div>
+        </div>
+
+        <!-- Connection -->
+        <div class="card">
+          <span class="card-title">Backend Configuration</span>
+
+          <div class="settings-field">
+            <label class="field-label" for="setting-backend-url">Backend REST URL</label>
+            <input type="text" class="text-input mono" id="setting-backend-url" value="http://localhost:4567">
+          </div>
+
+          <div class="settings-field">
+            <label class="field-label" for="setting-api-key">API Key</label>
+            <input type="password" class="text-input mono" id="setting-api-key" value="germin8_secret_token_2026">
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-top:2px;">
+            <button class="btn btn-secondary" id="btn-save-settings">Save Settings</button>
+            <button class="settings-link" id="btn-open-simulator">Open MCA Simulator</button>
+          </div>
+        </div>
+
+        <!-- Custom rule -->
+        <div class="card">
+          <span class="card-title">Custom Mapping Rule</span>
+          <div class="input-row">
+            <input
+              type="text"
+              class="text-input mono"
+              id="new-rule-dom-id"
+              placeholder="DOM ID or Name  (e.g. txtCin)"
+            >
+            <input
+              type="text"
+              class="text-input mono"
+              id="new-rule-target-path"
+              placeholder="DB Path  (e.g. company.cin)"
+            >
+          </div>
+          <button class="btn btn-primary" id="btn-add-rule">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;">
+              <line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/>
+            </svg>
+            Save Mapping Alias
+          </button>
+        </div>
+
+      </section><!-- /tab-admin -->
+
+    </main><!-- /content-panel -->
+
+  </div><!-- /app-body -->
+
+  <!-- ═══════════════════════════════════════
+       FOOTER  32 px
+  ═══════════════════════════════════════ -->
+  <footer class="app-footer">
+    <span id="footer-client-status">No Client Selected</span>
+    <span class="footer-sep" aria-hidden="true"></span>
+    <span id="footer-ready-status">0 Fields Ready</span>
+  </footer>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
