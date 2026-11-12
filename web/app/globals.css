@@ -26,7 +26,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Classes */
+/* ── Glassmorphism Utilities ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 234, 237, 0.9);
+  border-radius: 12px;
+}
+
 .glass-panel {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -36,12 +44,41 @@ body {
 
 .glass-nav {
   background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid #E8EAED;
 }
 
-/* Enterprise Buttons */
+/* ── Progress Ring (SVG-based, used in metrics) ── */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+/* ── Sidebar Nav Active State ── */
+.nav-item-active {
+  background: #F9F9F9;
+  border-left: 2px solid #171717;
+  color: #171717;
+  font-weight: 600;
+}
+.nav-item {
+  border-left: 2px solid transparent;
+}
+
+/* ── Status Badges ── */
+.badge-active   { background: #DCFCE7; color: #16A36A; }
+.badge-suspended { background: #FEE2E2; color: #DC5353; }
+.badge-trial    { background: #FFF8E5; color: #E5B52B; }
+.badge-owner    { background: #171717; color: #FFFFFF; }
+.badge-admin    { background: #374151; color: #FFFFFF; }
+.badge-accountant { background: #FFF8E5; color: #B45309; border: 1px solid #E5B52B; }
+.badge-operator { background: #EFF6FF; color: #4385DF; }
+.badge-viewer   { background: #F3F4F6; color: #737373; }
+
+/* ── Enterprise Buttons ── */
 .btn-primary {
   background-color: #171717;
   color: #FFFFFF;
@@ -98,17 +135,17 @@ body {
 }
 
 .btn-secondary:hover {
-  background-color: var(--bg-secondary);
+  background-color: #F9F9F9;
   border-color: #D1D5DB;
 }
 
-/* Card Styling */
+/* ── Card Styling ── */
 .card-white {
   background-color: #FFFFFF;
   border: 1px solid #E8EAED;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
 }
 
